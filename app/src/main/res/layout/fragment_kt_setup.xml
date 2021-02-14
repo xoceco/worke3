@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.home.KtSetupFragment"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="设置"
+        android:textAlignment="center" />
+
+    <Button
+        android:id="@+id/button_RunMOde"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="运行模式" />
+
+    <com.dnake.application.AddAndSubView
+        android:id="@+id/buttonSetzs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorC"
+        app:Max="2550"
+        app:Min="550"
+        app:Name="目标转速"
+        app:setp="50" />
+
+    <Button
+        android:id="@+id/buttton_reset"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="恢复转速" />
+
+    <Button
+        android:id="@+id/buttton_set"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="更改转速" />
+
+</LinearLayout>

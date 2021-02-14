@@ -1,0 +1,65 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/messages_header">
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/mb"
+            android:entryValues="@array/mb"
+            android:key="@string/driver_select"
+            android:title="通信方式"
+            app:useSimpleSummaryProvider="true"/>
+
+        <EditTextPreference
+            app:key="@string/txIp"
+            android:defaultValue="192.168.4.1"
+            app:title="目标地址"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            app:key="@string/txPort"
+            android:defaultValue="7000"
+            app:title="目标端口"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:defaultValue="7002"
+            app:key="@string/rxPort"
+            app:title="本地端口"
+            app:useSimpleSummaryProvider="true" />
+
+
+        <ListPreference
+            android:defaultValue="9600"
+            android:entries="@array/baud_rate"
+            android:entryValues="@array/baud_rate"
+            android:key="baud_rate"
+            android:title="波特率"
+            app:useSimpleSummaryProvider="true"/>
+        <ListPreference
+            app:defaultValue="reply"
+            app:entries="@array/reply_entries"
+            app:entryValues="@array/reply_values"
+            app:key="reply"
+            app:title="@string/reply_title"
+            app:useSimpleSummaryProvider="true" />
+
+
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/sync_header">
+
+        <SwitchPreferenceCompat
+            app:key="sync"
+            app:title="@string/sync_title" />
+
+        <SwitchPreferenceCompat
+            app:dependency="sync"
+            app:key="attachment"
+            app:summaryOff="@string/attachment_summary_off"
+            app:summaryOn="@string/attachment_summary_on"
+            app:title="@string/attachment_title" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

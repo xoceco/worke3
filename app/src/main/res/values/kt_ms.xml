@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="ktms">
+        <item>制热</item>
+        <item>制冷</item>
+        <item>送风</item>
+        <item>自动</item>
+        <item>除湿</item>
+        <item>旁通</item>
+    </string-array>
+</resources>

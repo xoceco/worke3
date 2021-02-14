@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg1_dw"
+    android:orientation="vertical"-->
+
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list"
+        android:name="com.dnake.myapplication.ItemFragment_xfsetup"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_weight="1"
+        app:layoutManager="LinearLayoutManager"
+        tools:context=".ui.xfsetup.ItemFragment_xfsetup"
+        tools:listitem="@layout/fragment_item_xfsetup"
+
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+        <TextView
+            android:id="@+id/textView4"
+            style="@style/Style_textviewA"
+
+            android:text="新风转速"/>
+
+        <TextView
+            android:id="@+id/textView_xf"
+            style="@style/Style_textviewA"
+
+            android:text="0"
+            android:textColor="#F44336"   />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:text="回风转速"
+            style="@style/Style_textviewA" />
+
+        <TextView
+            android:id="@+id/textView_hf"
+            style="@style/Style_textviewA"
+            android:text="0"
+            android:textColor="#F44336"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+      <Button
+            android:id="@+id/buttonR"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_weight="1"
+            android:text="读取"
+          />
+
+        <Button
+            android:id="@+id/buttonW"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_weight="1"
+            android:text="写入" />
+
+        <Button
+            android:id="@+id/buttonDW"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_weight="1"
+            android:text="档位" />
+    </LinearLayout>
+</LinearLayout>
