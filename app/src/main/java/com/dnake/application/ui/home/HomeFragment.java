@@ -77,7 +77,6 @@ public class HomeFragment extends Fragment implements SeekBar.OnSeekBarChangeLis
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        Log.i("test1","onCreateView");
         myApp=(MyApp)getActivity().getApplication();
         homeViewModel =
                 new ViewModelProvider(getActivity()).get(HomeViewModel.class);
@@ -130,20 +129,10 @@ public class HomeFragment extends Fragment implements SeekBar.OnSeekBarChangeLis
             }
         });
 
-        myApp.xfQueryTask.setOnTsak(b -> {
-            if(b) homeViewModel.updatexfkzUi();
-        });
         homeViewModel.mIsUpdatexfKzUi.observe(getActivity(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
                 if(aBoolean) updateUIXf();
-            }
-        });
-
-        myApp.ktQueryTask.setOnTsak(new MyApp.ModBusTimeTask.OnTsak() {
-            @Override
-            public void Tasked(boolean b) {
-                if(b) homeViewModel.updateKtkzUi();
             }
         });
         homeViewModel.mIsUpdateKtKzUi.observe(getActivity(), new Observer<Boolean>() {
@@ -156,11 +145,6 @@ public class HomeFragment extends Fragment implements SeekBar.OnSeekBarChangeLis
         myApp.ktGet50xTask.setOnTsak(b -> {
             if (b) {
                 StringBuilder str = new StringBuilder();
-
-//                if ((ModBus.Dev_kt.Reg_KT_502.getmVal() != 0) ||
-//                        (ModBus.Dev_kt.Reg_KT_503.getmVal() != 0) ||
-//                        (ModBus.Dev_kt.Reg_KT_504.getmVal() != 0))
-//                {
                     str.append(ModBus.Dev_kt.Reg_KT_502.toString());
                     str.append(ModBus.Dev_kt.Reg_KT_503.toString());
                     str.append(ModBus.Dev_kt.Reg_KT_504.toString());
@@ -168,7 +152,6 @@ public class HomeFragment extends Fragment implements SeekBar.OnSeekBarChangeLis
                     msg.what = what_50x;
                     msg.obj = str;
                     handler.sendMessage(msg);
-//                }
             }
         });
         homeViewModel.mIsUpdateKtKzUi.observe(getActivity(), new Observer<Boolean>() {
@@ -218,8 +201,6 @@ public class HomeFragment extends Fragment implements SeekBar.OnSeekBarChangeLis
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
-
-
     }
 
     @Override

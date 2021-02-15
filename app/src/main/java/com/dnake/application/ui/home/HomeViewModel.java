@@ -1,12 +1,21 @@
 package com.dnake.application.ui.home;
 
+import android.app.Application;
+
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
+import com.dnake.application.ModBus;
 import com.dnake.application.MyApp;
 
-public class HomeViewModel extends ViewModel {
+import java.util.Observable;
+import java.util.Observer;
+
+public class HomeViewModel extends AndroidViewModel{
 
     static class KtKz{
       public   boolean mPower;
@@ -17,25 +26,28 @@ public class HomeViewModel extends ViewModel {
     public MyApp myApp;
     private   boolean mIsUpdateUi=false;
     private MutableLiveData<String> mText;
-    public  MutableLiveData<Integer> mKTWD;
     public  MutableLiveData<Boolean> mIsUpdateKtKzUi;
     public  MutableLiveData<Boolean> mIsUpdatexfKzUi;
-    public HomeViewModel() {
+
+    public HomeViewModel(Application application) {
+        super(application);
+        myApp=(MyApp) application;
         mText = new MutableLiveData<>();
         mText.setValue("This is home fragment");
-        mKTWD=new MutableLiveData<>();
         mIsUpdateKtKzUi =new MutableLiveData<>();
         mIsUpdateKtKzUi.setValue(false);
         mIsUpdatexfKzUi =new MutableLiveData<>();
         mIsUpdatexfKzUi.setValue(false);
-     }
-    public void updateKtkzUi(){
-         mIsUpdateKtKzUi.postValue(true);
-     }
-    public void updatexfkzUi(){
-        mIsUpdatexfKzUi.postValue(true);
+        myApp.ktQueryTask.setOnTsak(b ->{
+            if(b){
+                mIsUpdateKtKzUi.postValue(true);
+            }});
+        myApp.xfQueryTask.setOnTsak(b->{
+            if(b) mIsUpdatexfKzUi.postValue(true);
+        });
     }
-     public LiveData<String> getText() {
+
+    public LiveData<String> getText() {
         return mText;
     }
 
