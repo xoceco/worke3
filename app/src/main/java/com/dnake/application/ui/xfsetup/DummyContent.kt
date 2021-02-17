@@ -14,8 +14,6 @@ object DummyContent {
      * An array of sample (dummy) items.
      */
     val ITEMS: MutableList<DummyItem> = ArrayList()
-    var dw=7
-
     /**
      * A map of sample (dummy) items, by ID.
      */

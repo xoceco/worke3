@@ -27,28 +27,13 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import static com.dnake.application.ModBus.Dev_kt;
 
 
-public class Fragment_Ktdisp extends Fragment implements View.OnClickListener {
+public class Fragment_Ktdisp extends Fragment{
      MainViewModel viewModel;
     View root;
     MyItemRecyclerViewAdapterAir adapterAir;
     MyApp myApp;
     final  int UpdatUIWhat=2;
     final  int FromDateWhat =3;
-    Handler handler=new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what){
-                case UpdatUIWhat:
-                    UpdatUI();
-                    break;
-                 case FromDateWhat:
-                    if(isResumed()) myApp.ktQueryTas_setup.setTimer(10,0);
-                    handler.sendEmptyMessageDelayed(FromDateWhat,5000);
-                    break;
-          }
-            super.handleMessage(msg);
-        }
-    };
     public Fragment_Ktdisp() {
         // Required empty public constructor
     }
@@ -58,22 +43,10 @@ public class Fragment_Ktdisp extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         myApp=(MyApp) getActivity().getApplication();
         viewModel= new ViewModelProvider(getActivity()).get(MainViewModel.class);
-        myApp.ktQueryTas_setup.setOnTsak(b -> {
-            if(b){
-             //   viewModel.getmNetState().postValue(What_querOk);
-             handler.sendEmptyMessageDelayed(UpdatUIWhat,100);
-        }
-            else {
-             //  viewModel.getmNetState().postValue(What_querNoOk);
-            }
-        });
-        handler.sendEmptyMessageDelayed(FromDateWhat,200);
       }
-
-    @Override
+   @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_kt_disp, container, false);
@@ -81,23 +54,21 @@ public class Fragment_Ktdisp extends Fragment implements View.OnClickListener {
         RecyclerView recyclerView = root.findViewById(R.id.recyclerView_01);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapterAir = new MyItemRecyclerViewAdapterAir(viewModel.ktstarte));
+        viewModel.UpdateUi.observe(getViewLifecycleOwner(),b->{
+            if(b) adapterAir.notifyDataSetChanged();
+        });
          return root;
     }
-    void UpdatUI()
-    {
-         adapterAir.notifyDataSetChanged();
-    }
-
-
-    @Override
-    public void onClick(View v) {
-
-    }
-
-    @Override
+ @Override
     public void onResume() {
         super.onResume();
-        myApp.ktQueryTas_setup.setTimer(10,0);
+        myApp.ktQueryTas_setup.setTimer(10,100);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        myApp.ktQueryTas_setup.setTimer(0,0);
     }
 }
 

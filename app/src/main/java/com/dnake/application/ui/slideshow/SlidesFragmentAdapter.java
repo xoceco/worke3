@@ -10,7 +10,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.dnake.application.ui.TestFragment;
 import com.dnake.application.ui.home.HomeFragment;
+import com.dnake.application.ui.home.KtSetupFragment;
+import com.dnake.application.ui.ktsetup.Fragment_Ktdisp;
+import com.dnake.application.ui.xfsetup.ItemFragment_xfsetup;
 
 public class SlidesFragmentAdapter extends FragmentStateAdapter {
 
@@ -23,11 +27,13 @@ public class SlidesFragmentAdapter extends FragmentStateAdapter {
     @Override
     public Fragment createFragment(int position) {
 
-        return  HomeFragment.New();
+        return  new TestFragment();
+       // return  HomeFragment.New();
+
     }
 
     @Override
     public int getItemCount() {
-        return 2;
+        return 4;
     }
 }

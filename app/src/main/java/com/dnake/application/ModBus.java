@@ -220,7 +220,7 @@ public class ModBus {
         public RegU16 Reg_KT_MS = AddRegU16(7);
         public RegU16 Reg_KT_FL = AddRegU16(8);
         public RegU16 Reg_KT_WD = AddRegU16(9);
-
+        public RegU16 Reg_KT_FR = AddRegU16(10);
         public  Reg_502 Reg_KT_502=AddReg_5XX(new Reg_502());
         public  Reg_503 Reg_KT_503=AddReg_5XX(new Reg_503());
         public  Reg_504 Reg_KT_504=AddReg_5XX(new Reg_504());

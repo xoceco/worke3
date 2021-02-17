@@ -15,38 +15,24 @@ import com.dnake.application.ui.slideshow.SlideshowFragment;
 
 
 
-   public class KTPagerAdapter extends FragmentStatePagerAdapter {
+   public class KTPagerAdapter extends androidx.viewpager2.adapter.FragmentStateAdapter {
     static String[] TABS=new String[]{"主界面","空调状态","空调设置","新风设置"};
-    public KTPagerAdapter(@NonNull FragmentManager fm, int behavior) {
-        super(fm, behavior);
-    }
 
-    @NonNull
-    @Override
-    public Fragment getItem(int position) {
-        if(position==0)  return  HomeFragment.New();
-        if(position==1)  return  new Fragment_Ktdisp();
-        if(position==2)  return  new KtSetupFragment();
-       if(position==3)  return  new ItemFragment_xfsetup();
-        return  new SlideshowFragment();
+       public KTPagerAdapter(@NonNull Fragment fragment) {
+           super(fragment);
+       }
+     @NonNull
+       @Override
+       public Fragment createFragment(int position) {
+           if(position==0)  return  new HomeFragment();
+           if(position==1)  return  new Fragment_Ktdisp();
+           if(position==2)  return  new KtSetupFragment();
+           if(position==3)  return  new ItemFragment_xfsetup();
+           return  new SlideshowFragment();
+       }
 
-    }
-
-    @Override
-    public int getCount() {
-        return TABS.length;
-    }
-
-    @Nullable
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return TABS[position];
-    }
-
-    @NonNull
-    @Override
-    public Object instantiateItem(@NonNull ViewGroup container, int position) {
-
-          return super.instantiateItem(container, position);
-    }
-}
+       @Override
+       public int getItemCount() {
+           return 4;
+       }
+   }

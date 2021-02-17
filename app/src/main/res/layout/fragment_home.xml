@@ -118,7 +118,7 @@
 
         </LinearLayout>
             <Switch
-                android:id="@+id/switch2"
+                android:id="@+id/switchKTFR"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"
@@ -168,6 +168,17 @@
                     android:paddingRight="24dp"
                     android:paddingBottom="16dp" />
             </LinearLayout>
+
+            <Switch
+                android:id="@+id/switch_xfFR"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:paddingTop="16dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="16dp"
+                android:text="新风辅热"
+                />
 
             <TextView
                 android:id="@+id/textViewWMess"

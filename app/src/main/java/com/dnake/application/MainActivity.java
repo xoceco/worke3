@@ -9,6 +9,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.Menu;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,8 +68,6 @@ public class MainActivity extends AppCompatActivity {
                     else {textViewTx.setBackgroundColor(colorTx);}
                     break;
              }
-
-
             super.handleMessage(msg);
         }
     };
@@ -79,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setVisibility(View.INVISIBLE);
         fab.setOnClickListener(view -> mainViewModel.showTable.postValue(b=!b));
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 //.setAction("Action", null).show());

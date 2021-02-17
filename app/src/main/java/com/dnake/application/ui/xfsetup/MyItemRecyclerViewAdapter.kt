@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import com.dnake.application.ModBus
 import com.dnake.application.R
 
 
@@ -30,7 +31,7 @@ open class MyItemRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
-        if(position%7== DummyContent.dw -1 ) {
+        if(position%7== ModBus.Dev_xf.Reg_XF_FAN.getmVal() -1 ) {
             holder.idView.setTextColor(Color.RED)
             holder.contentView.setTextColor(Color.RED)
             holder.buttonA.setTextColor(Color.RED)

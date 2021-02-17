@@ -95,6 +95,28 @@ public class MyApp extends Application {
                super(dev, RegStartAddr, Length, time, defTime);
            }
 
+           private ModBusTimeTask_0x03(ModBus.Dev dev, int RegStartAddr, int Length, int time, int defTime,int atuoDelayTiem) {
+               super(dev, RegStartAddr, Length, time, defTime);
+               Observer observer=new Observer() {
+                   @Override
+                   public void update(Observable observable, Object o) {
+                       Reg.State state=  (Reg.State) o;
+                       if(state==Reg.State.Set)
+                       {
+                           if(getDelayFrom()<atuoDelayTiem)
+                               setDelayFrom(atuoDelayTiem);
+                       }
+                   }
+               };
+               if(atuoDelayTiem!=0) {
+                   for(int i=0;i<Length;i++){
+                       Reg reg= dev.get(RegStartAddr+i);
+                       if(reg!=REG_NULL){
+                           reg.addObserver(observer);
+                       }
+                   }
+                }
+           }
            @Override
            boolean RunTask() {
                netState.postValue(NetState.Rxs);
@@ -136,7 +158,25 @@ public class MyApp extends Application {
                super(dev, RegStartAddr, Length, time, defTime);
            }
 
-           @Override
+           private ModBusTimeTask_0x10(ModBus.Dev dev, int RegStartAddr, int Length, int time, int defTime,int  autoUpdateTime) {
+               super(dev, RegStartAddr, Length, time, defTime);
+               final Observer observer= (observable, o) -> {
+                   Reg.State state=  (Reg.State) o;
+                   if(state==Reg.State.Set)
+                   {
+                       setTimer(autoUpdateTime);
+                   }
+               };
+               if(autoUpdateTime!=0){
+                   for(int i=0;i<Length;i++){
+                       Reg reg= dev.get(RegStartAddr+i);
+                       if(reg!=REG_NULL){
+                           reg.addObserver(observer);
+                       }
+                   }
+               }
+           }
+        @Override
            boolean RunTask() {
                return Modbus_CM_0x10(dev, RegStartAddr, lenth);
            }
@@ -175,11 +215,23 @@ public class MyApp extends Application {
                return val;
            }
 
+       public ModBusTimeTask AddTask_0x03(ModBus.Dev dev, int RegStartAddr, int Length, int time, int defTime,int autoDelayTime) {
+           ModBusTimeTask_0x03 val = new ModBusTimeTask_0x03(dev, RegStartAddr, Length, time, defTime,autoDelayTime);
+           add(val);
+           return val;
+       }
+
            public ModBusTimeTask AddTask_0x10(ModBus.Dev dev, int RegStartAddr, int Length, int time, int defTime) {
                ModBusTimeTask_0x10 val = new ModBusTimeTask_0x10(dev, RegStartAddr, Length, time, defTime);
                add(val);
                return val;
            }
+
+       public ModBusTimeTask AddTask_0x10(ModBus.Dev dev, int RegStartAddr, int Length, int time, int defTime,int autoUpdateTime) {
+           ModBusTimeTask_0x10 val = new ModBusTimeTask_0x10(dev, RegStartAddr, Length, time, defTime,autoUpdateTime);
+           add(val);
+           return val;
+       }
        }
 
        static public abstract class ModBusTimeTask {
@@ -263,15 +315,15 @@ public class MyApp extends Application {
        }
        public ModBusTimeTask xf2KzTask = modBusTasks.AddTask_0x10(Dev_xf2_01, 1, 5, 0, 0);
 
-       public ModBusTimeTask xfKzTask = modBusTasks.AddTask_0x10(Dev_xf, 1, 5, 0, 0);
+       public ModBusTimeTask xfUpdateTask = modBusTasks.AddTask_0x10(Dev_xf, 1, 5, 0, 0,50);
 
        public ModBusTimeTask xfzsKzTask = modBusTasks.AddTask_0x10(Dev_xf, 151, 17, 0, 0);
 
-       public ModBusTimeTask ktControlTask = modBusTasks.AddTask_0x10(Dev_kt, 6, 4, 0, 0);
+       public ModBusTimeTask ktUpdateTask = modBusTasks.AddTask_0x10(Dev_kt, 6, 5, 0, 0,50);
 
        public ModBusTimeTask ktGet50xTask=modBusTasks.AddTask_0x03(Dev_kt, 502, 3, 0, 0);
 
-       public ModBusTimeTask ktQueryTask = modBusTasks.AddTask_0x03(Dev_kt, 6, 5, 0, 0);
+       public ModBusTimeTask ktQueryTask = modBusTasks.AddTask_0x03(Dev_kt, 6, 5, 0, 0,100);
 
        public ModBusTimeTask xf2QueryTask = modBusTasks.AddTask_0x03(Dev_xf2_01, 1, 5, 0, 0);
 
@@ -279,7 +331,7 @@ public class MyApp extends Application {
 
        public ModBusTimeTask ktQueryTas_setup = modBusTasks.AddTask_0x03(Dev_kt, 600, 16, 0, 0);
 
-       public ModBusTimeTask xfQueryTask = modBusTasks.AddTask_0x03(Dev_xf, 1, 5, 0, 0);
+       public ModBusTimeTask xfQueryTask = modBusTasks.AddTask_0x03(Dev_xf, 1, 5, 0, 0,200);
 
        public ModBusTimeTask XfzsQTask = modBusTasks.AddTask_0x03(Dev_xf, 151, 17, 0, 0);
 
@@ -368,15 +420,19 @@ public class MyApp extends Application {
 
        @Override
        public void onCreate() {
+
          super.onCreate();
+         Log.i("test","Myapp onCreate");
          modBusTasks.Start();
-           Observer xfControlObserver;
+  /*       Observer xfControlObserver;
+
            ModBus.Dev_xf.Reg_XF_Power.addObserver(xfControlObserver = new Observer() {
                 @Override
                public void update(Observable observable, Object o) {
                  Reg.State state=  (Reg.State) o;
                  if(state==Reg.State.Set)
                   {
+                      Log.i("test"," xfKzTask.setTimer(50,UpdateOnTask);");
                       xfKzTask.setTimer(50,UpdateOnTask);
                       xfQueryTask.setDelayFrom(200);
                   }
@@ -418,7 +474,7 @@ public class MyApp extends Application {
           Dev_kt.Reg_KT_WD.addObserver(ktkzObserver);
           Dev_kt.Reg_KT_MS.addObserver(ktkzObserver);
           Dev_kt.Reg_KT_FL.addObserver(ktkzObserver);
-
+*/
            thread = null;
            isRun = true;
            thread = new Thread(runnable);
@@ -436,18 +492,13 @@ public class MyApp extends Application {
 
            SetAtuoUpdate_Dev_kt(Dev_kt.Reg_KT_mbzs, 10);
            SetAtuoUpdate_Dev_kt(Dev_kt.Reg_KT_testMode, 10);
-           ktControlTask.setOnTsak(b -> {   //设置成功，重新读回值
-               if(b) {
-                   ktQueryTask.setDelayFrom(50);
-                   ktQueryTask.setTimer(50);
-               }
-           });
+
       }
 
     public void setRxTx( @NonNull RxTx rxTx) throws Exception {
-          if(this.rxTx!=null){
-              this.rxTx.close();
-          }
+    //      if(this.rxTx!=null){
+      //        this.rxTx.close();
+      //    }
           this.rxTx=rxTx;
     }
 
@@ -611,11 +662,14 @@ public class MyApp extends Application {
             }
         }
           static class RxTx_Udp implements RxTx {
-           public DatagramSocket socket;
-           public DatagramPacket txPacket;
-           public DatagramPacket rxPacket;
+           static public DatagramSocket socket;
+           static public DatagramPacket txPacket;
+           static public DatagramPacket rxPacket;
            RxTx_Udp(String txIp,int txPort,int rxPort  ) throws Exception {
-                   if(socket!=null && !socket.isClosed()) socket.isClosed();
+                   if(socket!=null && !socket.isClosed()) {
+                     socket.close();
+                     socket=null;
+                   }
                    socket = new DatagramSocket(rxPort);
                    txPacket = new DatagramPacket(rxBuf, 0, 1);
                    txPacket.setAddress(InetAddress.getByName(txIp));
@@ -660,16 +714,4 @@ public class MyApp extends Application {
                    }
                }
            }
-       public  void ktControlUpdate()
-       {
-           ktQueryTask.setDelayFrom(200);
-           ktControlTask.setTimer(50);
-       }
-
-
-       public  void xfControlUpdate(){  //新风控制数据更新，数据更新成功后，会再读回
-           xfKzTask.setTimer(50);
-           xfQueryTask.setDelayFrom(200);
-       }
-
 }

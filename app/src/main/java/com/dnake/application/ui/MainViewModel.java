@@ -3,6 +3,7 @@ package com.dnake.application.ui;
 import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -19,6 +20,7 @@ public class MainViewModel extends AndroidViewModel {
 
     public ArrayList<ItemList> xf2hjs;
     public ArrayList<ItemList> ktstarte;
+    public MutableLiveData<Boolean> UpdateUi=new MutableLiveData<>();
     MyApp myApp;
     public MutableLiveData showTable=new MutableLiveData<Boolean>();
     public MainViewModel(Application myApp){
@@ -47,7 +49,10 @@ public class MainViewModel extends AndroidViewModel {
         ktstarte.add(new ItemList(Dev_kt.Reg_KT_613, "室内回风环境温度", "度"));
         ktstarte.add(new ItemList(Dev_kt.Reg_KT_614, "设备状态1", ""));
         ktstarte.add(new ItemList(Dev_kt.Reg_KT_615, "设备状态2", ""));
-     }
+        this.myApp.ktQueryTas_setup.setOnTsak(ok->{
+            UpdateUi.postValue(true);
+        });
+    }
    static   public class ItemList {
         public ModBus.Reg reg;
         public String name;
